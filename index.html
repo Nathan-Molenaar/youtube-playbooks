@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Playbooks — Tattooing 101</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --bg: #0a0a0b;
+    --surface: #141416;
+    --surface-2: #1c1c20;
+    --border: #2a2a30;
+    --text: #e8e8ed;
+    --text-dim: #8a8a95;
+    --accent: #6366f1;
+    --accent-glow: rgba(99, 102, 241, 0.15);
+    --green: #22c55e;
+    --green-dim: rgba(34, 197, 94, 0.12);
+    --red: #ef4444;
+    --red-dim: rgba(239, 68, 68, 0.12);
+    --gold: #eab308;
+    --gold-dim: rgba(234, 179, 8, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    text-align: center;
+    padding: 80px 24px 48px;
+    background: linear-gradient(180deg, rgba(99,102,241,0.08) 0%, transparent 100%);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-glow);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+
+  .nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,11,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-tab {
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-dim);
+    transition: all 0.2s;
+  }
+
+  .nav-tab:hover { border-color: var(--accent); color: var(--text); }
+  .nav-tab.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .formula-card {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  .formula-card .label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .formula-card code {
+    display: block;
+    font-size: clamp(0.9rem, 2vw, 1.15rem);
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    padding: 16px 24px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    line-height: 1.7;
+  }
+
+  .formula-card .examples {
+    text-align: left;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+  }
+
+  .formula-card .examples span {
+    display: block;
+    padding: 4px 0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.82rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  h2 .icon { font-size: 1.3rem; }
+
+  .rules-grid {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .rule-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .rule-row:hover { border-color: var(--accent); }
+
+  .rule-row .rule-name {
+    font-weight: 600;
+    font-size: 0.92rem;
+  }
+
+  .rule-row .stat {
+    text-align: center;
+    min-width: 70px;
+  }
+
+  .rule-row .stat-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+  }
+
+  .rule-row .stat-label {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-green .stat-value { color: var(--green); }
+  .stat-red .stat-value { color: var(--red); }
+  .stat-gold .stat-value { color: var(--gold); }
+  .stat-accent .stat-value { color: var(--accent); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .tip-card {
+    padding: 20px 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    border-left: 3px solid var(--green);
+  }
+
+  .tip-card.dont { border-left-color: var(--red); }
+
+  .tip-card .tip-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .tip-card .tip-body {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.65;
+  }
+
+  .tip-card .tip-proof {
+    margin-top: 10px;
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  .tip-card .tip-proof.win {
+    background: var(--green-dim);
+    color: var(--green);
+  }
+
+  .tip-card .tip-proof.loss {
+    background: var(--red-dim);
+    color: var(--red);
+  }
+
+  .magnitude-chart {
+    margin-bottom: 48px;
+  }
+
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .bar-label {
+    width: 200px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 32px;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    transition: width 0.6s ease;
+  }
+
+  .bar-best { background: linear-gradient(90deg, var(--green), #16a34a); }
+  .bar-good { background: linear-gradient(90deg, #3b82f6, #2563eb); }
+  .bar-meh { background: linear-gradient(90deg, var(--gold), #ca8a04); }
+  .bar-bad { background: linear-gradient(90deg, #f97316, #ea580c); }
+  .bar-worst { background: linear-gradient(90deg, var(--red), #dc2626); }
+
+  .checklist {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .checklist h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .check-item:last-child { border-bottom: none; }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 13px;
+  }
+
+  .check-box.checked {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .font-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 48px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .font-table th {
+    background: var(--surface-2);
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-dim);
+  }
+
+  .font-table td {
+    padding: 14px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .font-table .win-cell { color: var(--green); font-weight: 600; }
+  .font-table .lose-cell { color: var(--red); font-weight: 600; }
+
+  .stat-callout {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+
+  .callout-box {
+    flex: 1;
+    min-width: 180px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .callout-box .big-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--accent);
+  }
+
+  .callout-box .big-label {
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+
+  .bottom-line {
+    text-align: center;
+    padding: 48px 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .bottom-line p {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  .bottom-line strong { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .rule-row { grid-template-columns: 1fr; gap: 8px; }
+    .rule-row .stat { text-align: left; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .bar-label { width: 120px; font-size: 0.75rem; }
+    .stat-callout { gap: 10px; }
+    .callout-box { min-width: 140px; padding: 14px; }
+    .callout-box .big-num { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">Internal Playbook</div>
+  <h1>YouTube Title & Thumbnail Rules</h1>
+  <p>Data-backed playbooks from 586 A/B tests on the Tattooing 101 channel. What wins, what loses, and why.</p>
+</div>
+
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="switchTab('titles')">Titles (378 tests)</div>
+  <div class="nav-tab" onclick="switchTab('thumbnails')">Thumbnails (208 tests)</div>
+</div>
+
+<div class="container">
+
+  <!-- ===================== TITLES ===================== -->
+  <div id="titles" class="section active">
+
+    <div class="stat-callout">
+      <div class="callout-box"><div class="big-num">378</div><div class="big-label">A/B Tests</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--green)">48%</div><div class="big-label">Variant Win Rate</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--gold)">41-60</div><div class="big-label">Char Sweet Spot</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--accent)">30%+</div><div class="big-label">Min Change Needed</div></div>
+    </div>
+
+    <div class="formula-card">
+      <div class="label">The Winning Formula</div>
+      <code>[Power Word / CAPS Emphasis] + [Instructional Framing] + | + [Specific Context]</code>
+      <div class="examples">
+        <span>STOP Making This Shading Mistake | How to Fix Patchy Tattoos</span>
+        <span>3 Tips to MASTER Neo-Traditional Color | Beginner Tutorial</span>
+        <span>The WORST Tattoo Needle Mistakes | How to Choose the Right Setup</span>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--green)">&#9650;</span> Proven Winners</h2>
+    <div class="rules-grid">
+      <div class="rule-row">
+        <div class="rule-name">Add a specific number (3 Tips, 5 Ways)</div>
+        <div class="stat stat-green"><div class="stat-value">71%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">7</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">+40%</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Add ALL CAPS to 1-2 key words</div>
+        <div class="stat stat-green"><div class="stat-value">67%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">12</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">+24%</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Add instructional framing (How to, Tutorial, Tips)</div>
+        <div class="stat stat-green"><div class="stat-value">64%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">22</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">+7%</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Keep pipes in title for structure</div>
+        <div class="stat stat-green"><div class="stat-value">60%</div><div class="stat-label">Retain</div></div>
+        <div class="stat stat-accent"><div class="stat-value">65</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">&mdash;</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Add power words (STOP, NEVER, MUST, SECRET, WORST)</div>
+        <div class="stat stat-green"><div class="stat-value">59%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">63</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">+11%</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Convert statement to question</div>
+        <div class="stat stat-green"><div class="stat-value">55%</div><div class="stat-label">Win Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">66</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-gold"><div class="stat-value">+36%</div><div class="stat-label">Avg Lift</div></div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--red)">&#9660;</span> Proven Losers</h2>
+    <div class="rules-grid">
+      <div class="rule-row">
+        <div class="rule-name">Add ellipsis (...)</div>
+        <div class="stat stat-red"><div class="stat-value">100%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">3</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-91%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Make tiny edits (&lt;15% change)</div>
+        <div class="stat stat-red"><div class="stat-value">71%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">14</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-36%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Remove power words</div>
+        <div class="stat stat-red"><div class="stat-value">62%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">45</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-18%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Remove pipes/brackets (simplify structure)</div>
+        <div class="stat stat-red"><div class="stat-value">60%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">65</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-10%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Make title shorter</div>
+        <div class="stat stat-red"><div class="stat-value">59%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">140</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-8%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-name">Remove instructional language</div>
+        <div class="stat stat-red"><div class="stat-value">56%</div><div class="stat-label">Loss Rate</div></div>
+        <div class="stat stat-accent"><div class="stat-value">54</div><div class="stat-label">Tests</div></div>
+        <div class="stat stat-red"><div class="stat-value">-1%</div><div class="stat-label">Avg Loss</div></div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--accent)">&#9644;</span> Rewrite Magnitude</h2>
+    <div class="magnitude-chart">
+      <div class="bar-row">
+        <div class="bar-label">Major rewrite (30-50%)</div>
+        <div class="bar-track"><div class="bar-fill bar-best" style="width:51%">51% win</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Complete rewrite (&lt;30%)</div>
+        <div class="bar-track"><div class="bar-fill bar-good" style="width:48%">48% win</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Moderate change (50-70%)</div>
+        <div class="bar-track"><div class="bar-fill bar-meh" style="width:48%">48% win</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Minor tweak (70-85%)</div>
+        <div class="bar-track"><div class="bar-fill bar-bad" style="width:41%">41% win</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Tiny edit (85%+)</div>
+        <div class="bar-track"><div class="bar-fill bar-worst" style="width:29%">29% win</div></div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--gold)">&#9733;</span> What Big Wins Have in Common</h2>
+    <div class="cards-grid">
+      <div class="tip-card">
+        <div class="tip-title">12/15 made the title LONGER</div>
+        <div class="tip-body">The top 15 title wins (95-860% lift) almost all added length rather than cutting. Average winning title: 48 chars, 8.4 words.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">8/15 added specificity</div>
+        <div class="tip-body">Vague to concrete. Generic labels like "Testimonial" or "Review" consistently lost to benefit-driven alternatives.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">6/15 reframed to question or benefit</div>
+        <div class="tip-body">Shifting from a flat statement to a question or benefit framing drove significant CTR lifts.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">5/15 added instructional language</div>
+        <div class="tip-body">"How to", "Tutorial", "Tips" — these signal value and attract the learning-oriented audience.</div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--red)">&#9888;</span> What Big Losses Have in Common</h2>
+    <div class="cards-grid">
+      <div class="tip-card dont">
+        <div class="tip-title">Generic prefix kills CTR</div>
+        <div class="tip-body">Prepending "Tattoo Artist Advice |" or similar generic prefix destroys click-through.</div>
+        <div class="tip-proof loss">-465% CTR loss</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">Over-narrowing the audience</div>
+        <div class="tip-body">Adding unnecessary specificity that narrows who the video is for: "Before Tattooing" to "Before Tattooing Your Schedule".</div>
+        <div class="tip-proof loss">-423% CTR loss</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">Removing personality</div>
+        <div class="tip-body">Stripping the edge: "What Happened to My Shop?!" to "Rebuilding My Tattoo Studio" kills curiosity.</div>
+        <div class="tip-proof loss">-256% CTR loss</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">Over-genericizing reviews</div>
+        <div class="tip-body">Removing specific model names and replacing with "Tattoo Gear Review" loses specificity appeal.</div>
+        <div class="tip-proof loss">-219% CTR loss</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <h3>Pre-Publish Checklist</h3>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>At least one power word? (STOP, NEVER, MUST, SECRET, WORST, BEST)</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>Instructional framing? (How to, Tutorial, Tips, Guide, Beginner)</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>Pipe or brackets for structure?</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>41-60 characters?</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>1-2 ALL CAPS words for emphasis?</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>A/B test variation at least 30% different?</div></div>
+      <div class="check-item"><div class="check-box" onclick="this.classList.toggle('checked')"></div><div>No ellipsis (...)?</div></div>
+    </div>
+
+  </div>
+
+  <!-- ===================== THUMBNAILS ===================== -->
+  <div id="thumbnails" class="section">
+
+    <div class="stat-callout">
+      <div class="callout-box"><div class="big-num">208</div><div class="big-label">A/B Tests</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--green)">121</div><div class="big-label">High-Confidence Pairs</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--gold)">9.85%</div><div class="big-label">Top CTR</div></div>
+      <div class="callout-box"><div class="big-num" style="color:var(--accent)">7%+</div><div class="big-label">Elite CTR Tier</div></div>
+    </div>
+
+    <div class="formula-card">
+      <div class="label">The Winning Formula (Every Thumbnail Above 7% CTR)</div>
+      <code>Nathan/Brandon (large face) + Real tattoo work + Ripped-paper divider + Bold white text on black panel</code>
+    </div>
+
+    <h2><span class="icon" style="color:var(--green)">&#9650;</span> Proven Winners</h2>
+    <div class="cards-grid">
+      <div class="tip-card">
+        <div class="tip-title">1. Torn-paper split layout</div>
+        <div class="tip-body">Left: Nathan's face + studio. Right: white bold sans-serif text on black panel. Torn paper edge divider. The channel's strongest visual identity.</div>
+        <div class="tip-proof win">11/20 top wins</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">2. Text: 2-4 punchy words</div>
+        <div class="tip-body">"Ink Master Exposed!" beats "My Thoughts On Ink Master". If it takes more than 2 seconds to read, it's too long.</div>
+        <div class="tip-proof win">14/20 top wins &middot; +56% to +467% lift</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">3. Product/tattoo as hero</div>
+        <div class="tip-body">For tutorials and reviews, make the THING the main visual. Product close-ups outperform talking heads for reviews.</div>
+        <div class="tip-proof win">7/20 top wins</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">4. X/checkmark comparisons</div>
+        <div class="tip-body">Red X on "wrong" + green checkmark on correct. Creates instant visual tension. "What's wrong with the first one?" drives clicks.</div>
+        <div class="tip-proof win">5/20 top wins</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">5. Bold saturated backgrounds</div>
+        <div class="tip-body">Bright red, blue vs red battle split, yellow/red diagonal. High saturation pops in the YouTube feed. Best for "vs" content.</div>
+        <div class="tip-proof win">5/20 top wins</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">6. Remove branding elements</div>
+        <div class="tip-body">Kill the "TATTOO TUTORIAL" red badge. It appeared in 4 losing originals beaten by badge-free versions. The T101 logo adds clutter, not clicks.</div>
+        <div class="tip-proof win">7/20 top wins</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">7. Use "EASY" and "FOR BEGINNERS"</div>
+        <div class="tip-body">Speaks directly to the target audience and lowers perceived barrier.</div>
+        <div class="tip-proof win">"Best Tattoo Machine For Beginners" +75%</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">8. Reframe text to aspirational</div>
+        <div class="tip-body">"Start Your Online Journey Here" beat "Learn To Tattoo Online Here". Aspiration > instruction in thumbnail text.</div>
+        <div class="tip-proof win">+65% lift</div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--red)">&#9660;</span> Proven Losers</h2>
+    <div class="cards-grid">
+      <div class="tip-card dont">
+        <div class="tip-title">1. Never remove the face</div>
+        <div class="tip-body">The human face is the #1 click driver. Removing it collapsed CTR every single time. The biggest loss in the entire dataset was a face removal.</div>
+        <div class="tip-proof loss">7/20 top losses &middot; avg 89% loss &middot; worst: -545%</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">2. No red/yellow geometric overlays</div>
+        <div class="tip-body">The red/yellow "branded template" covering up real content fails every time. It looks generic and template-driven.</div>
+        <div class="tip-proof loss">10/20 top losses (50%)</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">3. Keep the ripped-paper divider</div>
+        <div class="tip-body">It's a proven brand element. Don't replace with smooth diagonal lines or geometric shapes.</div>
+        <div class="tip-proof loss">8/20 losses when removed</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">4. Don't add the T101 logo</div>
+        <div class="tip-body">It's clutter, not credibility. Viewers already see the channel name.</div>
+        <div class="tip-proof loss">6/6 tests with logo added = ALL lost</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">5. No stock/stylized imagery</div>
+        <div class="tip-body">Picasso holding a tattoo machine, wormhole in space, dragon sculpture. Authenticity wins. Always.</div>
+        <div class="tip-proof loss">5/20 losses &middot; -32% to -41%</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">6. Don't let text squeeze the person</div>
+        <div class="tip-body">The tattoo work + face should have at least 50% of the frame. Don't enlarge text so much it pushes them out.</div>
+        <div class="tip-proof loss">6/20 losses</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">7. Stick with white on dark</div>
+        <div class="tip-body">Don't switch to black text on yellow/orange blocks. White-on-dark reads as more professional and performs better.</div>
+        <div class="tip-proof loss">5/20 losses when changed</div>
+      </div>
+      <div class="tip-card dont">
+        <div class="tip-title">8. No speech bubbles or callouts</div>
+        <div class="tip-body">Speech bubbles, "WOW!" callouts, and decorative arrows read as clickbait and hurt trust with this audience.</div>
+        <div class="tip-proof loss">Consistent loser pattern</div>
+      </div>
+    </div>
+
+    <h2><span class="icon" style="color:var(--accent)">&#9644;</span> Font Rules</h2>
+    <table class="font-table">
+      <thead>
+        <tr><th>Winner</th><th>Loser</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="win-cell">Clean white bold sans-serif</td><td class="lose-cell">Italic red/white serif</td></tr>
+        <tr><td class="win-cell">White on black/dark panel</td><td class="lose-cell">Black on yellow/orange</td></tr>
+        <tr><td class="win-cell">2-4 words max</td><td class="lose-cell">Sentences or long phrases</td></tr>
+        <tr><td class="win-cell">One text area</td><td class="lose-cell">Multiple text blocks</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="icon" style="color:var(--gold)">&#9733;</span> Worth Testing Next</h2>
+    <div class="cards-grid">
+      <div class="tip-card">
+        <div class="tip-title">Zero-text thumbnails</div>
+        <div class="tip-body">Bold colors and striking tattoo art with no text at all.</div>
+        <div class="tip-proof win">Worked twice: +52% to +64% lift</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Cartoon/illustrated Nathan</div>
+        <div class="tip-body">Illustrated version of Nathan instead of photos.</div>
+        <div class="tip-proof win">+64% lift in one test</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Multi-element compositions</div>
+        <div class="tip-body">Result + process inset + face cutout layered together.</div>
+        <div class="tip-proof win">+104% lift</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-title">Blue vs Red battle template</div>
+        <div class="tip-body">Color split for comparison/versus content.</div>
+        <div class="tip-proof win">+46% lift</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="bottom-line">
+  <p>The audience rewards <strong>authenticity</strong> &mdash; Nathan's face, real tattooing footage, the ripped-paper divider, white text on black. They punish anything that looks <strong>template-driven, over-designed, or generic</strong>. Don't fix what works.</p>
+</div>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+document.querySelectorAll('.check-box').forEach(box => {
+  box.addEventListener('click', function() {
+    this.classList.toggle('checked');
+    this.textContent = this.classList.contains('checked') ? '\u2713' : '';
+  });
+});
+</script>
+
+</body>
+</html>
